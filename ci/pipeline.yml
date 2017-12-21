@@ -1,0 +1,92 @@
+---
+jobs:
+- name: build
+  public: true
+  serial_groups: [version]
+  plan:
+  - aggregate:
+    - get: style-rules
+      trigger: true
+    - get: version
+      params: { bump: patch }
+  - put: nexus-codenarc-main
+    params:
+      file: style-rules/codenarc-main.groovy
+      version_file: version/version
+  - put: nexus-codenarc-test
+    params:
+      file: style-rules/codenarc-test.groovy
+      version_file: version/version
+  - put: nexus-checkstyle
+    params:
+      file: style-rules/java-checkstyle.xml
+      version_file: version/version
+  - put: version
+    params: { file: version/version }
+
+- name: major
+  public: true
+  serial_groups: [version]
+  plan:
+  - get: version
+    params: {bump: major, pre: rc}
+  - put: version
+    params: {file: version/version}
+
+- name: minor
+  public: true
+  serial_groups: [version]
+  plan:
+  - get: version
+    params: {bump: minor, pre: rc}
+  - put: version
+    params: {file: version/version}
+
+resource_types:
+- name: maven-resource
+  type: docker-image
+  source:
+    repository: patrickcrocker/maven-resource
+    tag: latest
+
+resources:
+- name: style-rules
+  type: git
+  source:
+    uri: git@github.com:Identifix/style-rules.git
+    branch: master
+    private_key: ((data-ssh))
+- name: nexus-codenarc-main
+  type: maven-resource
+  source:
+    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
+    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    artifact: com.identifix.checkstyle:codenarc-main:groovy
+    username: ((nexus-username))
+    password: ((nexus-password))
+- name: nexus-codenarc-test
+  type: maven-resource
+  source:
+    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
+    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    artifact: com.identifix.checkstyle:codenarc-test:groovy
+    username: ((nexus-username))
+    password: ((nexus-password))
+- name: nexus-checkstyle
+  type: maven-resource
+  source:
+    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
+    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    artifact: com.identifix.checkstyle:java:xml
+    username: ((nexus-username))
+    password: ((nexus-password))
+- name: version
+  type: semver
+  source:
+    driver: git
+    initial_version: 0.0.1-RC.0
+    uri: git@github.com:Identifix/style-rules.git
+    branch: version
+    file: version
+    private_key: ((data-ssh))
+
