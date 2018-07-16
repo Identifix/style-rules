@@ -52,34 +52,35 @@ resource_types:
 resources:
 - name: style-rules
   type: git
+  check_every: 5m
   source:
     uri: git@github.com:Identifix/style-rules.git
     branch: master
-    private_key: ((data-ssh))
+    private_key: ((github.ssh_key))
 - name: nexus-codenarc-main
   type: maven-resource
   source:
     url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
     snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
     artifact: com.identifix.checkstyle:codenarc-main:groovy
-    username: ((nexus-username))
-    password: ((nexus-password))
+    username: ((artifact-repo.username))
+    password: ((artifact-repo.password))
 - name: nexus-codenarc-test
   type: maven-resource
   source:
     url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
     snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
     artifact: com.identifix.checkstyle:codenarc-test:groovy
-    username: ((nexus-username))
-    password: ((nexus-password))
+    username: ((artifact-repo.username))
+    password: ((artifact-repo.password))
 - name: nexus-checkstyle
   type: maven-resource
   source:
     url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
     snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
     artifact: com.identifix.checkstyle:java:xml
-    username: ((nexus-username))
-    password: ((nexus-password))
+    username: ((artifact-repo.username))
+    password: ((artifact-repo.password))
 - name: version
   type: semver
   source:
@@ -88,5 +89,4 @@ resources:
     uri: git@github.com:Identifix/style-rules.git
     branch: version
     file: version
-    private_key: ((data-ssh))
-
+    private_key: ((github.ssh_key))
