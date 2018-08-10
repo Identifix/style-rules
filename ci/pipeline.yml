@@ -60,27 +60,27 @@ resources:
 - name: nexus-codenarc-main
   type: maven-resource
   source:
-    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
-    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    url: ((artifact-repo.write_repo_release_url))
+    snapshot_url: ((artifact-repo.write_repo_snapshot_url))
     artifact: com.identifix.checkstyle:codenarc-main:groovy
-    username: ((artifact-repo.username))
-    password: ((artifact-repo.password))
+    username: ((artifact-repo.write_repo_username))
+    password: ((artifact-repo.write_repo_password))
 - name: nexus-codenarc-test
   type: maven-resource
   source:
-    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
-    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    url: ((artifact-repo.write_repo_release_url))
+    snapshot_url: ((artifact-repo.write_repo_snapshot_url))
     artifact: com.identifix.checkstyle:codenarc-test:groovy
-    username: ((artifact-repo.username))
-    password: ((artifact-repo.password))
+    username: ((artifact-repo.write_repo_username))
+    password: ((artifact-repo.write_repo_password))
 - name: nexus-checkstyle
   type: maven-resource
   source:
-    url: http://oemut03.mpifix.com:8081/nexus/content/repositories/releases
-    snapshot_url: http://oemut03.mpifix.com:8081/nexus/content/repositories/snapshots
+    url: ((artifact-repo.write_repo_release_url))
+    snapshot_url: ((artifact-repo.write_repo_snapshot_url))
     artifact: com.identifix.checkstyle:java:xml
-    username: ((artifact-repo.username))
-    password: ((artifact-repo.password))
+    username: ((artifact-repo.write_repo_username))
+    password: ((artifact-repo.write_repo_password))
 - name: version
   type: semver
   source:
