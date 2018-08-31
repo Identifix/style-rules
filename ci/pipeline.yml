@@ -65,6 +65,7 @@ resources:
     artifact: com.identifix.checkstyle:codenarc-main:groovy
     username: ((artifact-repo.write_repo_username))
     password: ((artifact-repo.write_repo_password))
+    skip_cert_check: true
 - name: nexus-codenarc-test
   type: maven-resource
   source:
@@ -73,6 +74,7 @@ resources:
     artifact: com.identifix.checkstyle:codenarc-test:groovy
     username: ((artifact-repo.write_repo_username))
     password: ((artifact-repo.write_repo_password))
+    skip_cert_check: true
 - name: nexus-checkstyle
   type: maven-resource
   source:
@@ -81,6 +83,7 @@ resources:
     artifact: com.identifix.checkstyle:java:xml
     username: ((artifact-repo.write_repo_username))
     password: ((artifact-repo.write_repo_password))
+    skip_cert_check: true
 - name: version
   type: semver
   source:
